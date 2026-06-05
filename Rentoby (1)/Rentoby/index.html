@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rentoby — Rent or Buy Furniture Effortlessly</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    /* ── Hero ─── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80') center/cover no-repeat;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg,
+        rgba(10,15,30,0.92) 0%,
+        rgba(10,15,30,0.75) 50%,
+        rgba(10,15,30,0.55) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(56,189,248,0.12);
+      border: 1px solid rgba(56,189,248,0.25);
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 24px;
+      animation: fadeInUp 0.7s both;
+    }
+    .hero-badge::before { content: '✦'; }
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 20px;
+      animation: fadeInUp 0.8s 0.1s both;
+      letter-spacing: -1px;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 36px;
+      animation: fadeInUp 0.8s 0.2s both;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s 0.3s both;
+    }
+    .hero-cta .btn {
+      padding: 14px 32px;
+      font-size: 1rem;
+    }
+    .hero-stats {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      animation: fadeInUp 0.8s 0.4s both;
+    }
+    .hero-stats-inner {
+      display: flex;
+      gap: 0;
+    }
+    .stat-card {
+      flex: 1;
+      background: rgba(30,41,59,0.7);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      padding: 24px 32px;
+      text-align: center;
+    }
+    .stat-card:first-child { border-radius: 16px 0 0 16px; }
+    .stat-card:last-child { border-radius: 0 16px 16px 0; }
+    .stat-card + .stat-card { border-left: none; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--primary);
+      display: block;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--text-muted); }
+
+    /* ── Features ─── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      text-align: center;
+      transition: all 0.35s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+      transform-origin: left;
+    }
+    .feature-card:hover::before { transform: scaleX(1); }
+    .feature-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .feature-icon {
+      width: 60px; height: 60px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(56,189,248,0.15), rgba(139,92,246,0.15));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto 16px;
+    }
+    .feature-card h3 { font-size: 1rem; margin-bottom: 8px; }
+    .feature-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── Categories ─── */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+    .cat-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+    .cat-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .cat-card:hover img { transform: scale(1.08); }
+    .cat-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,15,30,0.92) 30%, rgba(10,15,30,0.2) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+    }
+    .cat-icon { font-size: 1.6rem; margin-bottom: 6px; }
+    .cat-card h3 { font-size: 1rem; font-weight: 700; }
+    .cat-count { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; }
+    .cat-btn {
+      display: inline-block;
+      padding: 7px 16px;
+      background: rgba(56,189,248,0.15);
+      border: 1px solid rgba(56,189,248,0.3);
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--primary);
+      transition: all 0.2s;
+      align-self: flex-start;
+    }
+    .cat-card:hover .cat-btn { background: var(--primary); color: #0a0f1e; }
+
+    /* ── Testimonials ─── */
+    .testimonials-section { background: var(--bg2); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .testi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      position: relative;
+      transition: all 0.35s;
+    }
+    .testi-card:hover { transform: translateY(-6px); border-color: rgba(56,189,248,0.2); }
+    .testi-quote {
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--primary);
+      opacity: 0.3;
+      font-family: Georgia, serif;
+      margin-bottom: -10px;
+    }
+    .testi-text { font-size: 0.92rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 20px; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); }
+    .testi-name { font-weight: 700; font-size: 0.9rem; }
+    .testi-role { font-size: 0.78rem; color: var(--text-muted); }
+    .testi-rating { margin-left: auto; color: var(--accent); font-size: 0.85rem; }
+
+    /* ── How It Works ─── */
+    .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .how-step { text-align: center; padding: 32px 20px; }
+    .how-num {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 auto 16px;
+    }
+    .how-step h3 { font-size: 1.1rem; margin-bottom: 10px; }
+    .how-step p { font-size: 0.88rem; color: var(--text-muted); }
+
+    /* ── CTA Banner ─── */
+    .cta-section {
+      background: linear-gradient(135deg, rgba(56,189,248,0.08), rgba(139,92,246,0.08));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 64px 48px;
+      text-align: center;
+      margin: 0 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(ellipse at center, rgba(56,189,248,0.05) 0%, transparent 70%);
+      animation: gradientShift 6s ease infinite;
+    }
+    .cta-section h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 12px; position: relative; }
+    .cta-section p { color: var(--text-muted); margin-bottom: 28px; font-size: 1.05rem; position: relative; }
+    .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .categories-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero-stats-inner { gap: 0; }
+    }
+    @media (max-width: 768px) {
+      .categories-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .how-grid { grid-template-columns: 1fr; }
+      .hero-stats { display: none; }
+      .cta-section { margin: 0 16px 60px; padding: 40px 24px; }
+    }
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .categories-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ─────────────────────────────────────────────────────────────── -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-r">R</span>
+      Rento<span>by</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="pages/buy.html">Buy</a></li>
+      <li><a href="pages/rent.html">Rent</a></li>
+      <li><a href="pages/about.html">About</a></li>
+      <li><a href="pages/help.html">Help</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="search-bar">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input id="search-input" type="text" placeholder="Search furniture..." autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+
+      <a href="pages/wishlist.html" class="nav-icon-btn" aria-label="Wishlist">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        <span class="wishlist-badge">0</span>
+      </a>
+
+      <a href="pages/cart.html" class="nav-icon-btn" aria-label="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="cart-badge">0</span>
+      </a>
+
+      <a href="pages/profile.html" class="btn-nav-cta btn-ripple">Profile</a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">Premium Furniture Platform</div>
+      <h1>Rent or Buy<br>Furniture <span class="highlight">Effortlessly</span></h1>
+      <p>Discover 500+ premium pieces for every room. Flexible rental plans and outright buying — your home, your choice.</p>
+      <div class="hero-cta">
+        <a href="pages/rent.html" class="btn btn-primary btn-ripple">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+          Rent Now
+        </a>
+        <a href="pages/buy.html" class="btn btn-secondary btn-ripple">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          Buy Now
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="container">
+      <div class="hero-stats-inner">
+        <div class="stat-card slide-up delay-1">
+          <span class="stat-num">50K+</span>
+          <span class="stat-label">Happy Customers</span>
+        </div>
+        <div class="stat-card slide-up delay-2">
+          <span class="stat-num">500+</span>
+          <span class="stat-label">Premium Products</span>
+        </div>
+        <div class="stat-card slide-up delay-3">
+          <span class="stat-num">100+</span>
+          <span class="stat-label">Cities Covered</span>
+        </div>
+        <div class="stat-card slide-up delay-4">
+          <span class="stat-num">4.9★</span>
+          <span class="stat-label">Average Rating</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ───────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Why Rentoby</span>
+      <h2>Everything you need,<br>right here</h2>
+      <p>We make furnishing your home the easiest thing you'll do all year.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card slide-up delay-1">
+        <div class="feature-icon">💸</div>
+        <h3>Affordable Rentals</h3>
+        <p>Monthly plans starting from ₹299. Zero deposit, zero stress. Cancel anytime.</p>
+      </div>
+      <div class="feature-card slide-up delay-2">
+        <div class="feature-icon">🛋️</div>
+        <h3>Premium Furniture</h3>
+        <p>Curated collection of luxury and functional pieces from top brands.</p>
+      </div>
+      <div class="feature-card slide-up delay-3">
+        <div class="feature-icon">🚀</div>
+        <h3>Fast Delivery</h3>
+        <p>Same-day or next-day delivery available in 100+ cities across India.</p>
+      </div>
+      <div class="feature-card slide-up delay-4">
+        <div class="feature-icon">↩️</div>
+        <h3>Easy Returns</h3>
+        <p>Hassle-free pickup and returns. No questions asked within 7 days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Categories ─────────────────────────────────────────────────────────── -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Shop by Room</span>
+      <h2>Find furniture for<br>every corner</h2>
+    </div>
+    <div class="categories-grid" id="cat-grid"></div>
+  </div>
+</section>
+
+<!-- ── How It Works ───────────────────────────────────────────────────────── -->
+<section class="section" style="background:var(--bg2)">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Simple Process</span>
+      <h2>How Rentoby works</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-step slide-up delay-1">
+        <div class="how-num">1</div>
+        <h3>Browse & Choose</h3>
+        <p>Explore our curated catalog and pick the furniture that fits your style and budget.</p>
+      </div>
+      <div class="how-step slide-up delay-2">
+        <div class="how-num">2</div>
+        <h3>Rent or Buy</h3>
+        <p>Select a flexible rental period or purchase outright. Pay securely online.</p>
+      </div>
+      <div class="how-step slide-up delay-3">
+        <div class="how-num">3</div>
+        <h3>We Deliver & Set Up</h3>
+        <p>We deliver to your door and assemble everything — so you can relax.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Testimonials ───────────────────────────────────────────────────────── -->
+<section class="section testimonials-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Testimonials</span>
+      <h2>Loved by thousands</h2>
+      <p>Don't take our word for it — here's what our customers say.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testi-card slide-up delay-1">
+        <div class="testi-quote">"</div>
+        <p class="testi-text">Rented a full bedroom set for 6 months while in a new city. The delivery was next-day and the furniture was absolutely stunning. Will definitely use again!</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="">
+          <div>
+            <div class="testi-name">NO name</div>
+            <div class="testi-role">Software Engineer, Bengaluru</div>
+          </div>
+          <div class="testi-rating">★★★★★</div>
+        </div>
+      </div>
+      <div class="testi-card slide-up delay-2">
+        <div class="testi-quote">"</div>
+        <p class="testi-text">Bought a gorgeous dining table from Rentoby. The quality is far better than anything I found at retail stores. Price was excellent and delivery was fast.</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="" alt="Priya S.">
+          <div>
+            <div class="testi-name">No name</div>
+            <div class="testi-role">Interior Designer, Mumbai</div>
+          </div>
+          <div class="testi-rating">★★★★★</div>
+        </div>
+      </div>
+      <div class="testi-card slide-up delay-3">
+        <div class="testi-quote">"</div>
+        <p class="testi-text">The ergonomic office chair I rented literally saved my back. Easy returns when I eventually bought my own. The customer support team is exceptional.</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="">
+          <div>
+            <div class="testi-name">No name</div>
+            <div class="testi-role">Freelancer, Chennai</div>
+          </div>
+          <div class="testi-rating">★★★★★</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────────────────────────── -->
+<div class="container">
+  <div class="cta-section zoom-in">
+    <h2>Ready to transform your space?</h2>
+    <p>Join 50,000+ customers who trust Rentoby for premium furniture.</p>
+    <div class="cta-btns">
+      <a href="pages/rent.html" class="btn btn-primary btn-ripple">Start Renting</a>
+      <a href="pages/buy.html" class="btn btn-outline btn-ripple">Shop to Buy</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo logo" style="margin-bottom:16px; display:inline-flex">
+          <span class="logo-r">R</span> Rento<span style="color:var(--primary)">by</span>
+        </a>
+        <p>Premium furniture rental and buying platform. Furnish your dream home without breaking the bank.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon" aria-label="Instagram">📷</a>
+          <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-icon" aria-label="Facebook">📘</a>
+          <a href="#" class="social-icon" aria-label="LinkedIn">💼</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="pages/buy.html">Buy Furniture</a>
+        <a href="pages/rent.html">Rent Furniture</a>
+        <a href="pages/buy.html">Living Room</a>
+        <a href="pages/buy.html">Bedroom</a>
+        <a href="pages/buy.html">Office</a>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <a href="pages/profile.html">My Profile</a>
+        <a href="pages/cart.html">My Cart</a>
+        <a href="pages/wishlist.html">Wishlist</a>
+        <a href="#">My Orders</a>
+        <a href="#">My Rentals</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="pages/help.html">Help Center</a>
+        <a href="pages/about.html">About Us</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2025 Rentoby. All rights reserved.</span>
+      <span>Made with ♥ in India</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script>
+  // Render categories
+  const catGrid = document.getElementById('cat-grid');
+  if (catGrid) {
+    catGrid.innerHTML = CATEGORIES.map(c => `
+      <a href="pages/buy.html?cat=${c.id}" class="cat-card zoom-in">
+        <img src="${c.image}" alt="${c.label}"
+             onerror="this.src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80'">
+        <div class="cat-overlay">
+          <div class="cat-icon">${c.icon}</div>
+          <h3>${c.label}</h3>
+          <div class="cat-count">${c.count} products</div>
+          <span class="cat-btn">Explore →</span>
+        </div>
+      </a>`).join('');
+    initScrollAnimations();
+  }
+</script>
+</body>
+</html>

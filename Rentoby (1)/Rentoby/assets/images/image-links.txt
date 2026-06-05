@@ -1,0 +1,83 @@
+# Rentoby — All Image URLs Used in the Project
+# Generated automatically. All images are from Unsplash (free to use).
+
+## Hero & Section Images
+HERO_BG       = https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80
+ABOUT_HERO_BG = https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80
+STORY_IMG     = https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80
+
+## Profile Slideshow
+SLIDE_1 = https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1400&q=80
+SLIDE_2 = https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1400&q=80
+SLIDE_3 = https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=1400&q=80
+SLIDE_4 = https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&q=80
+
+## Category Images
+CAT_LIVING_ROOM = https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80
+CAT_BEDROOM     = https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80
+CAT_KITCHEN     = https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80
+CAT_DINING      = https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=800&q=80
+CAT_OFFICE      = https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80
+
+## Testimonial Avatars
+TESTI_1 = https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80
+TESTI_2 = https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80
+TESTI_3 = https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80
+
+## Team Photos
+TEAM_RAHUL = https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80
+TEAM_PRIYA = https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80
+TEAM_ARJUN = https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80
+TEAM_NEHA  = https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80
+
+## Product Images (50 total — IDs match products.js)
+P01_VELVET_SOFA          = https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80
+P02_POWER_RECLINER       = https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=600&q=80
+P03_MARBLE_TABLE         = https://images.unsplash.com/photo-1532372576444-dda954194ad0?w=600&q=80
+P04_TV_UNIT              = https://images.unsplash.com/photo-1593766827703-d4f3e0d05f75?w=600&q=80
+P05_BOOKSHELF            = https://images.unsplash.com/photo-1601760561441-16420502c7e0?w=600&q=80
+P06_SIDE_TABLE           = https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=600&q=80
+P07_CONSOLE_TABLE        = https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80
+P08_OTTOMAN              = https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80
+P09_LOUNGE_CHAIR         = https://images.unsplash.com/photo-1567538096621-38d2284b23ff?w=600&q=80
+P10_DISPLAY_CABINET      = https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80
+P11_KING_BED             = https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80
+P12_WARDROBE             = https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=600&q=80
+P13_DRESSING_TABLE       = https://images.unsplash.com/photo-1617325247661-675ab4b64ae2?w=600&q=80
+P14_BEDSIDE_TABLE        = https://images.unsplash.com/photo-1556020685-ae41abfc9365?w=600&q=80
+P15_CHEST_DRAWERS        = https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=600&q=80
+P16_STUDY_DESK           = https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=600&q=80
+P17_BENCH                = https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&q=80
+P18_LADDER_SHELF         = https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=600&q=80
+P19_CANOPY_BED           = https://images.unsplash.com/photo-1540518614846-7eded433c457?w=600&q=80
+P20_BUNK_BED             = https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80
+P21_KITCHEN_ISLAND       = https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80
+P22_WALL_CABINETS        = https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=600&q=80
+P23_UTILITY_CART         = https://images.unsplash.com/photo-1565183997392-2f6f122e5912?w=600&q=80
+P24_BREAKFAST_BAR        = https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80
+P25_PANTRY_UNIT          = https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=80
+P26_UNDER_SINK           = https://images.unsplash.com/photo-1556020685-ae41abfc9365?w=600&q=80
+P27_SPICE_RACK           = https://images.unsplash.com/photo-1505935428862-770b6f24f629?w=600&q=80
+P28_BAR_STOOLS           = https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80
+P29_POT_RACK             = https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=600&q=80
+P30_KITCHEN_BENCH        = https://images.unsplash.com/photo-1481277542470-605612bd2d61?w=600&q=80
+P31_DINING_TABLE         = https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=600&q=80
+P32_DINING_CHAIRS        = https://images.unsplash.com/photo-1567538096621-38d2284b23ff?w=600&q=80
+P33_ROUND_TABLE          = https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80
+P34_SIDEBOARD            = https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80
+P35_FARM_TABLE           = https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=600&q=80
+P36_TULIP_CHAIRS         = https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=600&q=80
+P37_HUTCH                = https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80
+P38_LAZY_SUSAN           = https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=600&q=80
+P39_BENCH_SET            = https://images.unsplash.com/photo-1562113530-57ba467cea38?w=600&q=80
+P40_WINE_CABINET         = https://images.unsplash.com/photo-1562113530-57ba467cea38?w=600&q=80
+P41_ERGONOMIC_CHAIR      = https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=600&q=80
+P42_L_DESK               = https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=600&q=80
+P43_STANDING_DESK        = https://images.unsplash.com/photo-1593766827703-d4f3e0d05f75?w=600&q=80
+P44_BOOKCASE             = https://images.unsplash.com/photo-1567538096621-38d2284b23ff?w=600&q=80
+P45_FILING_CABINET       = https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80
+P46_MONITOR_DESK         = https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?w=600&q=80
+P47_OFFICE_SOFA          = https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80
+P48_MEETING_TABLE        = https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80
+P49_WHITEBOARD           = https://images.unsplash.com/photo-1497366754035-f200968a6e23?w=600&q=80
+P50_CREDENZA             = https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80

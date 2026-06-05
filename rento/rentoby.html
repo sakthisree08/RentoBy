@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rentoby</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    header h1 {
+      color: #00a5a5;
+      font-size: 22px;
+    }
+
+    .nav-icons a {
+      margin-left: 15px;
+      color: #333;
+      font-size: 20px;
+      text-decoration: none;
+    }
+
+    section {
+      padding: 20px;
+    }
+
+    /* Category Tab Styling */
+    .category-tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+  
+    .tab-button {
+      background: #00a5a5;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  
+    .tab-button:hover {
+      background: #4e46dc;
+    }
+
+    .category-content .category-items {
+      display: none;
+    }
+
+    /* Active Category */
+    .category-items.active {
+      display: block;
+    }
+
+    .item-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+
+    .item-card h4 {
+      font-size: 15px;
+      padding: 10px 5px;
+    }
+
+    .item-card p {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .item-card button {
+      background: #4e46dc;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .item-card button:hover {
+      background: #00a5a5;
+    }
+
+    .banner {
+      background: linear-gradient(to right, #fbd3e9, #bbd2c5);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .banner h2 {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .banner p {
+      font-size: 14px;
+    }
+
+    .banner button {
+      margin-top: 10px;
+      background: #4e46dc;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .furniture-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+    }
+
+    footer a {
+      text-decoration: none;
+      color: #555;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    footer a i {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    footer a.active {
+      color: #00a5a5;
+    }
+
+    @media (min-width: 600px) {
+      .banner h2 { font-size: 24px; }
+      .item-card img { height: 150px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <h1>Rentoby</h1>
+  <div class="nav-icons">
+    <a href="#like"><i class="fa-regular fa-heart"></i></a>
+    <a href="#cart"><i class="fa-solid fa-cart-shopping"></i></a>
+  </div>
+</header>
+
+<!-- Home Page -->
+<section id="home">
+  <div class="banner">
+    <h2>Multifunctional Aesthetic Furniture</h2>
+    <p>72 hrs delivery • Zero delivery fee</p>
+    <button>Explore Now</button>
+  </div>
+
+  <h3 style="margin: 20px 0 10px;">Popular Products</h3>
+  <div class="furniture-grid">
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1615873968403-89f7aa1e84de?auto=format&fit=crop&w=400&q=60" alt="Sofa">
+      <h4>Green Sofa Set</h4>
+      <p>₹999/month</p>
+    </div>
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1582582494700-fb6c065f4a5d?auto=format&fit=crop&w=400&q=60" alt="Study Table">
+      <h4>Wooden Study Table</h4>
+      <p>₹499/month</p>
+    </div>
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1602526214327-000cc7eb6827?auto=format&fit=crop&w=400&q=60" alt="Dining Set">
+      <h4>Dining Set (4 Seater)</h4>
+      <p>₹799/month</p>
+    </div>
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=60" alt="TV Unit">
+      <h4>TV Unit</h4>
+      <p>₹299/month</p>
+    </div>
+  </div>
+</section>
+
+<!-- Cart Page -->
+<section id="cart">
+  <h2>My Cart</h2>
+  <div class="furniture-grid">
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1615873968403-89f7aa1e84de?auto=format&fit=crop&w=400&q=60" alt="Sofa">
+      <h4>Green Sofa Set</h4>
+      <p>Qty: 1 • ₹999/month</p>
+    </div>
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1582582494700-fb6c065f4a5d?auto=format&fit=crop&w=400&q=60" alt="Study Table">
+      <h4>Study Table</h4>
+      <p>Qty: 1 • ₹499/month</p>
+    </div>
+  </div>
+</section>
+
+<!-- Buy Page -->
+<section id="buy">
+  <h2>Buy Furniture</h2>
+  <!-- Category Tabs -->
+  <div class="category-tabs">
+    <button class="tab-button" onclick="showCategory('living-room')">Living Room</button>
+    <button class="tab-button" onclick="showCategory('kitchen')">Kitchen</button>
+    <button class="tab-button" onclick="showCategory('bedroom')">Bedroom</button>
+  </div>
+  <!-- Category Content -->
+  <div class="category-content">
+    <!-- Living Room Category -->
+    <div id="living-room" class="category-items">
+      <h3>Living Room</h3>
+      <div class="furniture-grid">
+        <div class="item-card">
+          <img src="https://images.unsplash.com/photo-1615873968403-89f7aa1e84de?auto=format&fit=crop&w=400&q=60" alt="Sofa">
+          <h4>Green Sofa Set</h4>
+          <p>₹999</p>
+          <button>Add to Cart</button>
+          <button>Like</button>
+        </div>
+      </div>
+    </div>
+    <!-- Kitchen Category -->
+    <div id="kitchen" class="category-items" style="display: none;">
+      <h3>Kitchen</h3>
+      <div class="furniture-grid">
+        <div class="item-card">
+          <img src="https://images.unsplash.com/photo-1602526214327-000cc7eb6827?auto=format&fit=crop&w=400&q=60" alt="Dining Set">
+          <h4>Dining Set (4 Seater)</h4>
+          <p>₹799</p>
+          <button>Add to Cart</button>
+          <button>Like</button>
+        </div>
+      </div>
+    </div>
+    <!-- Bedroom Category -->
+    <div id="bedroom" class="category-items" style="display: none;">
+      <h3>Bedroom</h3>
+      <div class="furniture-grid">
+        <div class="item-card">
+          <img src="https://images.unsplash.com/photo-1567016542258-447b3da3ff91?auto=format&fit=crop&w=400&q=60" alt="Bed">
+          <h4>King Size Bed</h4>
+          <p>₹899</p>
+          <button>Add to Cart</button>
+          <button>Like</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Like Page -->
+<section id="like">
+  <h2>Wishlist</h2>
+  <div class="furniture-grid">
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1602526214327-000cc7eb6827?auto=format&fit=crop&w=400&q=60" alt="Dining">
+      <h4>4-Seater Dining</h4>
+      <p>₹799/month</p>
+    </div>
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=60" alt="TV Unit">
+      <h4>TV Unit</h4>
+      <p>₹299/month</p>
+    </div>
+  </div>
+</section>
+
+<!-- Rent Section -->
+<section id="rent">
+  <h2>Rent Furniture</h2>
+  <div class="furniture-grid">
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1567016542258-447b3da3ff91?auto=format&fit=crop&w=400&q=60" alt="Bed">
+      <h4>King Size Bed</h4>
+      <p>Rent: ₹899/month</p>
+    </div>
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1600585153995-d0df6ec2283e?auto=format&fit=crop&w=400&q=60" alt="Recliner">
+      <h4>Recliner Chair</h4>
+      <p>Rent: ₹599/month</p>
+    </div>
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1606312619344-df0b5a6eb2d3?auto=format&fit=crop&w=400&q=60" alt="Wardrobe">
+      <h4>3-Door Wardrobe</h4>
+      <p>Rent: ₹699/month</p>
+    </div>
+    <div class="item-card">
+      <img src="https://images.unsplash.com/photo-1582582494789-ea1fe6b3ba92?auto=format&fit=crop&w=400&q=60" alt="Office Chair">
+      <h4>Office Chair</h4>
+      <p>Rent: ₹299/month</p>
+    </div>
+  </div>
+</section>
+
+<!-- Profile Page -->
+<section id="profile">
+  <h2>User Profile</h2>
+  <p><strong>Name:</strong> Jane Doe</p>
+  <p><strong>Email:</strong> jane@rentoby.com</p>
+  <p><strong>Membership:</strong> Premium</p>
+</section>
+
+<!-- JavaScript for tab switching -->
+<script>
+  function showCategory(category) {
+    let categories = document.querySelectorAll('.category-items');
+    categories.forEach(cat => {
+      cat.classList.remove('active');
+    });
+    document.getElementById(category).classList.add('active');
+  }
+</script>
+
+<!-- Footer -->
+<footer>
+  <a href="#home"><i class="fa-solid fa-house"></i>Home</a>
+  <a href="#buy"><i class="fa-solid fa-couch"></i>Buy</a>
+  <a href="#rent"><i class="fa-solid fa-bed"></i>Rent</a>
+  <a href="#like"><i class="fa-regular fa-heart"></i>Wishlist</a>
+  <a href="#profile"><i class="fa-solid fa-user"></i>Profile</a>
+</footer>
+
+</body>
+</html>

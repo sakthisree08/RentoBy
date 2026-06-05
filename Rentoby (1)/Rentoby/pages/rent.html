@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rent Furniture — Rentoby</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <style>
+    .plan-banner {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .plan-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+    }
+    .plan-card.active {
+      border-color: var(--primary);
+      background: rgba(56,189,248,0.06);
+    }
+    .plan-card.active::after {
+      content: '✓ Selected';
+      position: absolute;
+      top: -1px; right: -1px;
+      background: var(--primary);
+      color: #0a0f1e;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 0 var(--radius) 0 8px;
+    }
+    .plan-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+    .plan-icon { font-size: 2rem; margin-bottom: 8px; }
+    .plan-card h3 { font-size: 1rem; margin-bottom: 4px; }
+    .plan-from { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; }
+    .plan-price { font-size: 1.6rem; font-weight: 800; font-family:'Syne',sans-serif; color: var(--primary); }
+    .plan-note { font-size: 0.75rem; color: var(--text-muted); margin-top: 6px; }
+
+    .sidebar-rent { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; position:sticky; top:calc(var(--nav-h)+20px); }
+    .sidebar-rent h3 { font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:14px; margin-top:20px; }
+    .sidebar-rent h3:first-child { margin-top:0; }
+    .sidebar-cats-r { display:flex; flex-direction:column; gap:4px; }
+    .sidebar-cat-r { padding:10px 14px; border-radius:8px; font-size:0.88rem; cursor:pointer; transition:all 0.2s; color:var(--text-muted); display:flex; align-items:center; justify-content:space-between; }
+    .sidebar-cat-r:hover { background:rgba(56,189,248,0.06); color:var(--text); }
+    .sidebar-cat-r.active { background:rgba(56,189,248,0.1); color:var(--primary); font-weight:600; }
+    .shop-layout { display:grid; grid-template-columns:260px 1fr; gap:32px; align-items:start; }
+
+    .rent-perks {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .perk {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .perk-icon { font-size: 1rem; }
+
+    @media(max-width:1024px){.shop-layout{grid-template-columns:1fr;}.sidebar-rent{display:none;}}
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><span class="logo-r">R</span> Rento<span>by</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="buy.html">Buy</a></li>
+      <li><a href="rent.html" class="active">Rent</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="help.html">Help</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="search-bar">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="search-input" type="text" placeholder="Search furniture..." autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <a href="wishlist.html" class="nav-icon-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="wishlist-badge">0</span>
+      </a>
+      <a href="cart.html" class="nav-icon-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge">0</span>
+      </a>
+      <a href="profile.html" class="btn-nav-cta btn-ripple">Profile</a>
+      <button class="menu-toggle" id="menu-toggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <div class="slide-left">
+      <span class="section-tag">Rent Furniture</span>
+      <h1>Rent Premium Furniture<br><span style="color:var(--secondary)">Flexibly</span></h1>
+      <p>No commitment. No hidden fees. Just beautiful furniture at your doorstep.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container section-sm">
+
+  <!-- Plan Selector -->
+  <div class="plan-banner">
+    <div class="plan-card slide-up delay-1" data-period="daily" onclick="setPeriod('daily',this)">
+      <div class="plan-icon">📅</div>
+      <h3>Daily Rental</h3>
+      <div class="plan-from">From</div>
+      <div class="plan-price">₹29<span style="font-size:1rem;font-weight:400">/day</span></div>
+      <div class="plan-note">Perfect for events & short stays</div>
+    </div>
+    <div class="plan-card slide-up delay-2" data-period="weekly" onclick="setPeriod('weekly',this)">
+      <div class="plan-icon">📆</div>
+      <h3>Weekly Rental</h3>
+      <div class="plan-from">From</div>
+      <div class="plan-price">₹129<span style="font-size:1rem;font-weight:400">/wk</span></div>
+      <div class="plan-note">Great for temporary housing</div>
+    </div>
+    <div class="plan-card slide-up delay-3 active" data-period="monthly" onclick="setPeriod('monthly',this)">
+      <div class="plan-icon">🏠</div>
+      <h3>Monthly Rental</h3>
+      <div class="plan-from">From</div>
+      <div class="plan-price">₹329<span style="font-size:1rem;font-weight:400">/mo</span></div>
+      <div class="plan-note">Most popular — save up to 40%</div>
+    </div>
+  </div>
+
+  <div class="rent-perks">
+    <div class="perk"><span class="perk-icon">✅</span> Free Delivery & Setup</div>
+    <div class="perk"><span class="perk-icon">✅</span> Zero Security Deposit</div>
+    <div class="perk"><span class="perk-icon">✅</span> Free Maintenance</div>
+    <div class="perk"><span class="perk-icon">✅</span> Cancel Anytime</div>
+    <div class="perk"><span class="perk-icon">✅</span> Upgrade / Swap Products</div>
+  </div>
+
+  <div class="shop-layout">
+    <aside class="sidebar-rent">
+      <div>
+        <h3>Categories</h3>
+        <div class="sidebar-cats-r" id="sidebar-cats-r">
+          <div class="sidebar-cat-r active" data-cat="all">All Furniture</div>
+          <div class="sidebar-cat-r" data-cat="living-room">Living Room</div>
+          <div class="sidebar-cat-r" data-cat="bedroom">Bedroom</div>
+          <div class="sidebar-cat-r" data-cat="kitchen">Kitchen</div>
+          <div class="sidebar-cat-r" data-cat="dining">Dining</div>
+          <div class="sidebar-cat-r" data-cat="office">Office</div>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="filter-bar" id="filter-bar-r">
+        <button class="filter-btn active" data-cat="all">All</button>
+        <button class="filter-btn" data-cat="living-room">Living Room</button>
+        <button class="filter-btn" data-cat="bedroom">Bedroom</button>
+        <button class="filter-btn" data-cat="kitchen">Kitchen</button>
+        <button class="filter-btn" data-cat="dining">Dining</button>
+        <button class="filter-btn" data-cat="office">Office</button>
+      </div>
+      <div class="products-grid" id="rent-grid"></div>
+    </main>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2025 Rentoby. All rights reserved.</span>
+      <a href="../index.html" style="color:var(--primary)">← Back to Home</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/products.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/main.js"></script>
+<script>
+  let currentPeriod = 'monthly';
+  let currentCatR = 'all';
+
+  function setPeriod(p, el) {
+    currentPeriod = p;
+    document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    renderRentGrid();
+  }
+
+  function renderRentGrid() {
+    const prods = currentCatR === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === currentCatR);
+    document.getElementById('rent-grid').innerHTML = prods.map(p => renderProductCard(p, 'rent')).join('');
+    initScrollAnimations();
+  }
+
+  document.getElementById('sidebar-cats-r').querySelectorAll('.sidebar-cat-r').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-cat-r, .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const fb = document.querySelector(`#filter-bar-r [data-cat="${btn.dataset.cat}"]`);
+      if (fb) fb.classList.add('active');
+      currentCatR = btn.dataset.cat;
+      renderRentGrid();
+    });
+  });
+
+  document.getElementById('filter-bar-r').querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn, .sidebar-cat-r').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const sb = document.querySelector(`#sidebar-cats-r [data-cat="${btn.dataset.cat}"]`);
+      if (sb) sb.classList.add('active');
+      currentCatR = btn.dataset.cat;
+      renderRentGrid();
+    });
+  });
+
+  renderRentGrid();
+</script>
+</body>
+</html>

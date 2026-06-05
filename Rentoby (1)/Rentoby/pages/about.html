@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — Rentoby</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <style>
+    /* ── About Hero ── */
+    .about-hero {
+      position: relative;
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      margin-top: var(--nav-h);
+    }
+    .about-hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80') center/cover no-repeat;
+    }
+    .about-hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10,15,30,0.93) 0%, rgba(10,15,30,0.7) 100%);
+    }
+    .about-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+    }
+    .about-hero h1 { font-size: clamp(2.5rem,5vw,4rem); font-weight: 900; margin-bottom: 16px; }
+    .about-hero p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.75; max-width: 560px; }
+
+    /* ── Story Section ── */
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .story-img {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      position: relative;
+    }
+    .story-img img { width: 100%; height: 100%; object-fit: cover; }
+    .story-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px solid rgba(56,189,248,0.2);
+      border-radius: var(--radius-lg);
+      pointer-events: none;
+    }
+    .story-content .section-tag { margin-bottom: 12px; display: inline-block; }
+    .story-content h2 { font-size: clamp(1.8rem,3.5vw,2.6rem); margin-bottom: 16px; }
+    .story-content p { color: var(--text-muted); line-height: 1.8; margin-bottom: 14px; font-size: 0.95rem; }
+    .story-milestones { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+    .milestone {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .milestone-num { font-size: 1.5rem; font-weight: 900; font-family: 'Syne',sans-serif; color: var(--primary); }
+    .milestone-label { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ── Mission / Vision ── */
+    .mv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .mv-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .mv-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .mv-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+    .mv-card.mission::before { background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+    .mv-card.vision::before { background: linear-gradient(90deg, var(--secondary), var(--accent)); }
+    .mv-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .mv-card h3 { font-size: 1.3rem; margin-bottom: 12px; }
+    .mv-card p { color: var(--text-muted); line-height: 1.75; font-size: 0.95rem; }
+
+    /* ── Values ── */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .value-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .value-card:hover { transform: translateY(-5px); border-color: rgba(56,189,248,0.25); }
+    .value-icon { font-size: 2rem; margin-bottom: 12px; }
+    .value-card h4 { font-size: 1rem; margin-bottom: 8px; }
+    .value-card p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── Team ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .team-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.35s;
+      position: relative;
+    }
+    .team-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      border-color: rgba(56,189,248,0.2);
+    }
+    .team-img-wrap {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1;
+    }
+    .team-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .team-card:hover .team-img-wrap img { transform: scale(1.06); }
+    .team-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,15,30,0.9), transparent 50%);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .team-card:hover .team-overlay { opacity: 1; }
+    .team-socials { display: flex; gap: 8px; }
+    .team-social-btn {
+      width: 32px; height: 32px;
+      background: rgba(56,189,248,0.15);
+      border: 1px solid rgba(56,189,248,0.3);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      color: var(--primary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .team-social-btn:hover { background: var(--primary); color: #0a0f1e; }
+    .team-info { padding: 16px 14px 18px; }
+    .team-name { font-weight: 700; font-size: 1rem; font-family: 'Syne',sans-serif; margin-bottom: 4px; }
+    .team-role { font-size: 0.8rem; color: var(--primary); font-weight: 500; margin-bottom: 6px; }
+    .team-bio { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── Stats Banner ── */
+    .stats-banner {
+      background: linear-gradient(135deg, rgba(56,189,248,0.07), rgba(139,92,246,0.07));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 24px;
+      text-align: center;
+    }
+    .banner-stat-num { font-size: 2.4rem; font-weight: 900; font-family:'Syne',sans-serif; color: var(--primary); }
+    .banner-stat-label { font-size: 0.88rem; color: var(--text-muted); margin-top: 4px; }
+
+    @media(max-width:1024px) {
+      .story-grid { grid-template-columns: 1fr; gap: 40px; }
+      .team-grid { grid-template-columns: repeat(2,1fr); }
+      .stats-banner { grid-template-columns: repeat(2,1fr); }
+      .values-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media(max-width:768px) {
+      .mv-grid { grid-template-columns: 1fr; }
+      .stats-banner { grid-template-columns: 1fr 1fr; padding: 28px; }
+    }
+    @media(max-width:480px) {
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .story-milestones { grid-template-columns: 1fr 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><span class="logo-r">R</span> Rento<span>by</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="buy.html">Buy</a></li>
+      <li><a href="rent.html">Rent</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="help.html">Help</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="wishlist.html" class="nav-icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="wishlist-badge">0</span></a>
+      <a href="cart.html" class="nav-icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-badge">0</span></a>
+      <a href="profile.html" class="btn-nav-cta">Profile</a>
+      <button class="menu-toggle" id="menu-toggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="about-hero">
+  <div class="about-hero-bg"></div>
+  <div class="container">
+    <div class="about-hero-content">
+      <span class="section-tag" style="animation:fadeInUp 0.6s both">Our Story</span>
+      <h1 class="animate-hero-text">Furnishing India,<br><span class="gradient-text">One Home at a Time</span></h1>
+      <p style="animation:fadeInUp 0.8s 0.2s both">Founded in 2019, Rentoby was born from a simple belief — everyone deserves a beautiful home, regardless of budget or tenure. We make that possible.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="section">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-img slide-left">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="Our Story"
+             onerror="this.src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80'">
+      </div>
+      <div class="story-content slide-right">
+        <span class="section-tag">How It Started</span>
+        <h2>From a small idea to India's favourite furniture platform</h2>
+        <p>In 2019, our founders Priya and Rahul were frustrated by the same problem millions face — moving to a new city for work, only to discover that buying quality furniture was either too expensive or too permanent.</p>
+        <p>They launched Rentoby with just 50 products and a van. Today we operate across 100+ cities, serving 50,000+ happy customers with over 500 carefully curated products — available to rent or buy.</p>
+        <p>Our mission has never changed: make premium furniture accessible, affordable, and effortless for every Indian home.</p>
+        <div class="story-milestones">
+          <div class="milestone slide-up delay-1">
+            <div class="milestone-num">2019</div>
+            <div class="milestone-label">Founded in Bengaluru</div>
+          </div>
+          <div class="milestone slide-up delay-2">
+            <div class="milestone-num">100+</div>
+            <div class="milestone-label">Cities Covered</div>
+          </div>
+          <div class="milestone slide-up delay-3">
+            <div class="milestone-num">50K+</div>
+            <div class="milestone-label">Happy Customers</div>
+          </div>
+          <div class="milestone slide-up delay-4">
+            <div class="milestone-num">500+</div>
+            <div class="milestone-label">Products Available</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Banner -->
+<section class="section-sm" style="background:var(--bg2)">
+  <div class="container">
+    <div class="stats-banner zoom-in">
+      <div>
+        <div class="banner-stat-num">50K+</div>
+        <div class="banner-stat-label">Happy Customers</div>
+      </div>
+      <div>
+        <div class="banner-stat-num">100+</div>
+        <div class="banner-stat-label">Cities Covered</div>
+      </div>
+      <div>
+        <div class="banner-stat-num">4.9★</div>
+        <div class="banner-stat-label">Average Rating</div>
+      </div>
+      <div>
+        <div class="banner-stat-num">₹0</div>
+        <div class="banner-stat-label">Security Deposit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mission & Vision -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">What Drives Us</span>
+      <h2>Mission & Vision</h2>
+    </div>
+    <div class="mv-grid">
+      <div class="mv-card mission slide-left">
+        <div class="mv-icon">🎯</div>
+        <h3>Our Mission</h3>
+        <p>To democratise access to premium furniture by offering flexible rental and buying options that fit every lifestyle, budget, and life stage — without compromise on quality, style, or service.</p>
+        <p style="margin-top:12px">We believe your home should feel like <em>you</em>, whether you're renting for a month or furnishing forever.</p>
+      </div>
+      <div class="mv-card vision slide-right">
+        <div class="mv-icon">🔭</div>
+        <h3>Our Vision</h3>
+        <p>To become South Asia's most trusted furniture platform — the first name people think of when they move, upgrade, or transform their living space.</p>
+        <p style="margin-top:12px">By 2027, we aim to serve 500+ cities, offer 2,000+ products, and introduce fully circular furniture — where every piece is reused, refurbished, and rehomed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Core Values</span>
+      <h2>What we stand for</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card slide-up delay-1">
+        <div class="value-icon">💎</div>
+        <h4>Quality First</h4>
+        <p>Every product is hand-picked, quality-checked, and professionally maintained. We never compromise on the feel of luxury.</p>
+      </div>
+      <div class="value-card slide-up delay-2">
+        <div class="value-icon">🤝</div>
+        <h4>Customer Obsession</h4>
+        <p>From same-day delivery to zero-questions returns, every policy we have is built around making your life easier.</p>
+      </div>
+      <div class="value-card slide-up delay-3">
+        <div class="value-icon">🌱</div>
+        <h4>Sustainability</h4>
+        <p>Our rental model reduces furniture waste. We refurbish and rehome over 95% of returned products — good for you, great for the planet.</p>
+      </div>
+      <div class="value-card slide-up delay-4">
+        <div class="value-icon">⚡</div>
+        <h4>Speed & Reliability</h4>
+        <p>Next-day delivery, same-day setup, real-time tracking. When you need it, we deliver — on time, every time.</p>
+      </div>
+      <div class="value-card slide-up delay-5">
+        <div class="value-icon">💸</div>
+        <h4>Fair Pricing</h4>
+        <p>Transparent pricing, zero hidden fees, zero security deposit. What you see is exactly what you pay.</p>
+      </div>
+      <div class="value-card slide-up delay-6">
+        <div class="value-icon">🔄</div>
+        <h4>Flexibility</h4>
+        <p>Rent for a day, a week, or a year. Upgrade your furniture mid-rental. Buy what you love. Your rules.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+<section class="section" style="background:var(--bg2)">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Our People</span>
+      <h2>Meet the team behind Rentoby</h2>
+      <p>A passionate group of designers, engineers, and customer champions building the future of furniture.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card slide-up delay-1">
+        <div class="team-img-wrap">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Rahul Sharma"
+               onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80'">
+          <div class="team-overlay">
+            <div class="team-socials">
+              <div class="team-social-btn">in</div>
+              <div class="team-social-btn">🐦</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Rahul Sharma</div>
+          <div class="team-role">Co-Founder & CEO</div>
+          <div class="team-bio">Serial entrepreneur with 12 years in e-commerce and home décor. IIT Bombay alumnus.</div>
+        </div>
+      </div>
+      <div class="team-card slide-up delay-2">
+        <div class="team-img-wrap">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Priya Nair"
+               onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80'">
+          <div class="team-overlay">
+            <div class="team-socials">
+              <div class="team-social-btn">in</div>
+              <div class="team-social-btn">🐦</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Priya Nair</div>
+          <div class="team-role">Co-Founder & COO</div>
+          <div class="team-bio">Operations expert. Built and scaled logistics networks across 6 Indian cities. BITS Pilani.</div>
+        </div>
+      </div>
+      <div class="team-card slide-up delay-3">
+        <div class="team-img-wrap">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" alt="Arjun Mehta"
+               onerror="this.src='https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80'">
+          <div class="team-overlay">
+            <div class="team-socials">
+              <div class="team-social-btn">in</div>
+              <div class="team-social-btn">🐦</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Arjun Mehta</div>
+          <div class="team-role">Head of Design</div>
+          <div class="team-bio">Award-winning product designer. Former Pepperfry. Curates every piece in our catalog.</div>
+        </div>
+      </div>
+      <div class="team-card slide-up delay-4">
+        <div class="team-img-wrap">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Neha Gupta"
+               onerror="this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80'">
+          <div class="team-overlay">
+            <div class="team-socials">
+              <div class="team-social-btn">in</div>
+              <div class="team-social-btn">🐦</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Neha Gupta</div>
+          <div class="team-role">Head of Customer Experience</div>
+          <div class="team-bio">Passionate about zero-friction service. Built our 4.9★ support team from scratch.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="cta-section zoom-in">
+      <h2>Want to join our journey?</h2>
+      <p>We're hiring across design, engineering, and operations. Come build the future of furniture with us.</p>
+      <div class="cta-btns">
+        <a href="#" class="btn btn-primary btn-ripple">View Open Roles</a>
+        <a href="help.html" class="btn btn-outline btn-ripple">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="nav-logo logo" style="margin-bottom:16px;display:inline-flex">
+          <span class="logo-r">R</span> Rento<span style="color:var(--primary)">by</span>
+        </a>
+        <p>Premium furniture rental and buying platform. Furnish your dream home without breaking the bank.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon">📷</a>
+          <a href="#" class="social-icon">🐦</a>
+          <a href="#" class="social-icon">📘</a>
+          <a href="#" class="social-icon">💼</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="buy.html">Buy Furniture</a>
+        <a href="rent.html">Rent Furniture</a>
+        <a href="buy.html">Living Room</a>
+        <a href="buy.html">Bedroom</a>
+        <a href="buy.html">Office</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="help.html">Help Center</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Rentoby. All rights reserved.</span>
+      <span>Made with ♥ in India</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/products.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buy Furniture — Rentoby</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <style>
+    .shop-layout { display: grid; grid-template-columns: 260px 1fr; gap: 32px; align-items: start; }
+    .sidebar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      position: sticky;
+      top: calc(var(--nav-h) + 20px);
+    }
+    .sidebar h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 14px; margin-top: 20px; }
+    .sidebar h3:first-child { margin-top: 0; }
+    .sidebar-cats { display: flex; flex-direction: column; gap: 4px; }
+    .sidebar-cat {
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .sidebar-cat:hover { background: rgba(56,189,248,0.06); color: var(--text); }
+    .sidebar-cat.active { background: rgba(56,189,248,0.1); color: var(--primary); font-weight: 600; }
+    .sidebar-cat .cat-count-badge {
+      background: var(--card2);
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .price-slider-wrap { padding: 4px 0; }
+    .price-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(to right, var(--primary) 0%, var(--primary) 70%, var(--card2) 70%);
+      outline: none;
+      cursor: pointer;
+    }
+    .price-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 3px rgba(56,189,248,0.2);
+      cursor: pointer;
+    }
+    .price-display { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; }
+    #price-label { color: var(--primary); font-weight: 600; }
+    .sort-select {
+      width: 100%;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+    }
+    .results-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .results-bar span { font-size: 0.88rem; color: var(--text-muted); }
+    .view-toggle { display: flex; gap: 4px; }
+    .view-btn {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .view-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(56,189,248,0.08); }
+
+    @media (max-width: 1024px) {
+      .shop-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; display: flex; flex-wrap: wrap; gap: 20px; }
+      .sidebar-section { min-width: 180px; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">
+      <span class="logo-r">R</span> Rento<span>by</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="buy.html" class="active">Buy</a></li>
+      <li><a href="rent.html">Rent</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="help.html">Help</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="search-bar">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="search-input" type="text" placeholder="Search furniture..." autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <a href="wishlist.html" class="nav-icon-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="wishlist-badge">0</span>
+      </a>
+      <a href="cart.html" class="nav-icon-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge">0</span>
+      </a>
+      <a href="profile.html" class="btn-nav-cta btn-ripple">Profile</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <div class="slide-left">
+      <span class="section-tag">Buy Furniture</span>
+      <h1>Shop Premium <span style="color:var(--primary)">Furniture</span></h1>
+      <p>Own the pieces you love. One-time purchase, lifetime quality.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container section-sm">
+  <div class="shop-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <h3>Categories</h3>
+        <div class="sidebar-cats" id="sidebar-cats">
+          <div class="sidebar-cat active" data-cat="all">All Furniture <span class="cat-count-badge">50</span></div>
+          <div class="sidebar-cat" data-cat="living-room">Living Room <span class="cat-count-badge">10</span></div>
+          <div class="sidebar-cat" data-cat="bedroom">Bedroom <span class="cat-count-badge">10</span></div>
+          <div class="sidebar-cat" data-cat="kitchen">Kitchen <span class="cat-count-badge">10</span></div>
+          <div class="sidebar-cat" data-cat="dining">Dining <span class="cat-count-badge">10</span></div>
+          <div class="sidebar-cat" data-cat="office">Office <span class="cat-count-badge">10</span></div>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <h3>Price Range</h3>
+        <div class="price-slider-wrap">
+          <input type="range" id="price-range" class="price-slider" min="3000" max="60000" value="60000" step="500">
+          <div class="price-display"><span>₹3,000</span><span id="price-label">₹60,000</span></div>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <h3>Sort By</h3>
+        <select class="sort-select" id="sort-select">
+          <option value="default">Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="rating">Top Rated</option>
+        </select>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+      <div class="results-bar">
+        <span id="result-count">Showing 50 products</span>
+        <div class="filter-bar" id="filter-bar" style="margin:0">
+          <button class="filter-btn active" data-cat="all">All</button>
+          <button class="filter-btn" data-cat="living-room">Living Room</button>
+          <button class="filter-btn" data-cat="bedroom">Bedroom</button>
+          <button class="filter-btn" data-cat="kitchen">Kitchen</button>
+          <button class="filter-btn" data-cat="dining">Dining</button>
+          <button class="filter-btn" data-cat="office">Office</button>
+        </div>
+      </div>
+      <div class="products-grid" id="products-grid"></div>
+    </main>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2025 Rentoby. All rights reserved.</span>
+      <a href="../index.html" style="color:var(--primary)">← Back to Home</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/products.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/main.js"></script>
+<script>
+  let currentCat = 'all';
+  let currentMax = 60000;
+  let currentSort = 'default';
+
+  // Check URL param
+  const urlCat = new URLSearchParams(location.search).get('cat');
+  if (urlCat) currentCat = urlCat;
+
+  function renderGrid() {
+    let prods = currentCat === 'all' ? [...PRODUCTS] : PRODUCTS.filter(p => p.category === currentCat);
+    prods = prods.filter(p => p.buyPrice <= currentMax);
+    if (currentSort === 'price-asc') prods.sort((a,b) => a.buyPrice - b.buyPrice);
+    else if (currentSort === 'price-desc') prods.sort((a,b) => b.buyPrice - a.buyPrice);
+    else if (currentSort === 'rating') prods.sort((a,b) => b.rating - a.rating);
+    document.getElementById('products-grid').innerHTML = prods.map(p => renderProductCard(p, 'buy')).join('');
+    document.getElementById('result-count').textContent = `Showing ${prods.length} products`;
+    initScrollAnimations();
+  }
+
+  // Sidebar cats
+  document.getElementById('sidebar-cats').querySelectorAll('.sidebar-cat').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-cat, .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const topBtn = document.querySelector(`.filter-btn[data-cat="${btn.dataset.cat}"]`);
+      if (topBtn) topBtn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      renderGrid();
+    });
+  });
+
+  // Top filter bar
+  document.getElementById('filter-bar').querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn, .sidebar-cat').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const sideBtn = document.querySelector(`.sidebar-cat[data-cat="${btn.dataset.cat}"]`);
+      if (sideBtn) sideBtn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      renderGrid();
+    });
+  });
+
+  // Price range
+  document.getElementById('price-range').addEventListener('input', e => {
+    currentMax = parseInt(e.target.value);
+    document.getElementById('price-label').textContent = `₹${currentMax.toLocaleString('en-IN')}`;
+    renderGrid();
+  });
+
+  // Sort
+  document.getElementById('sort-select').addEventListener('change', e => {
+    currentSort = e.target.value;
+    renderGrid();
+  });
+
+  // Apply URL cat
+  if (urlCat) {
+    document.querySelectorAll('.sidebar-cat, .filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll(`[data-cat="${urlCat}"]`).forEach(b => b.classList.add('active'));
+  }
+
+  renderGrid();
+</script>
+</body>
+</html>

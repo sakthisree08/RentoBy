@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help Center — Rentoby</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <style>
+    /* ── Help Hero ── */
+    .help-hero {
+      background: linear-gradient(135deg, rgba(56,189,248,0.06), rgba(139,92,246,0.06));
+      border-bottom: 1px solid var(--border);
+      padding: calc(var(--nav-h) + 56px) 0 56px;
+      text-align: center;
+    }
+    .help-hero h1 { font-size: clamp(2rem,5vw,3.5rem); margin-bottom: 14px; }
+    .help-hero p { color: var(--text-muted); font-size: 1.05rem; max-width: 520px; margin: 0 auto 28px; }
+    .help-search {
+      position: relative;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .help-search input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 20px 14px 48px;
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .help-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(56,189,248,0.1); }
+    .help-search .h-search-icon {
+      position: absolute;
+      left: 16px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    /* ── FAQ Categories ── */
+    .faq-cats {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+    .faq-cat-btn {
+      padding: 9px 20px;
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .faq-cat-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .faq-cat-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #0a0f1e;
+      font-weight: 700;
+    }
+
+    /* ── FAQ Layout ── */
+    .faq-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* ── Accordion ── */
+    .faq-group { margin-bottom: 32px; }
+    .faq-group-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-left: 4px;
+    }
+    .accordion-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .accordion-item.open { border-color: rgba(56,189,248,0.25); }
+    .accordion-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .accordion-trigger:hover { background: rgba(56,189,248,0.04); }
+    .accordion-q {
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'Syne', sans-serif;
+      flex: 1;
+    }
+    .accordion-icon {
+      width: 28px; height: 28px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: all 0.3s;
+      font-style: normal;
+    }
+    .accordion-item.open .accordion-icon {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #0a0f1e;
+      transform: rotate(45deg);
+    }
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0,1,0,1);
+    }
+    .accordion-item.open .accordion-body {
+      max-height: 600px;
+      transition: max-height 0.5s ease-in-out;
+    }
+    .accordion-answer {
+      padding: 0 20px 18px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+    .accordion-answer ul { list-style: disc; padding-left: 18px; margin-top: 8px; }
+    .accordion-answer li { margin-bottom: 4px; }
+    .accordion-answer strong { color: var(--text); }
+    .accordion-answer a { color: var(--primary); text-decoration: underline; }
+
+    /* ── Contact Panel ── */
+    .contact-panel { position: sticky; top: calc(var(--nav-h) + 20px); display: flex; flex-direction: column; gap: 16px; }
+    .contact-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+    .contact-card h3 { font-size: 1rem; margin-bottom: 4px; }
+    .contact-card p { font-size: 0.84rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6; }
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .contact-method:hover { border-color: var(--primary); transform: translateX(3px); }
+    .contact-method-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .icon-phone { background: rgba(16,185,129,0.15); }
+    .icon-email { background: rgba(56,189,248,0.15); }
+    .icon-chat { background: rgba(139,92,246,0.15); }
+    .contact-method-info {}
+    .contact-label { font-size: 0.8rem; color: var(--text-muted); }
+    .contact-value { font-size: 0.9rem; font-weight: 600; }
+    .live-chat-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--secondary), #6d28d9);
+      color: #fff;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .live-chat-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,92,246,0.3); }
+    .chat-dot {
+      width: 8px; height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulseGlow 1.5s ease-in-out infinite;
+    }
+
+    /* ── Popular Articles ── */
+    .article-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      color: var(--text-muted);
+    }
+    .article-link:last-child { border-bottom: none; }
+    .article-link:hover { color: var(--primary); }
+    .article-link::before { content: '→'; color: var(--primary); font-size: 0.8rem; }
+
+    @media(max-width:1024px) { .faq-layout { grid-template-columns: 1fr; } .contact-panel { position: static; } }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><span class="logo-r">R</span> Rento<span>by</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="buy.html">Buy</a></li>
+      <li><a href="rent.html">Rent</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="help.html" class="active">Help</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="wishlist.html" class="nav-icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="wishlist-badge">0</span></a>
+      <a href="cart.html" class="nav-icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-badge">0</span></a>
+      <a href="profile.html" class="btn-nav-cta">Profile</a>
+      <button class="menu-toggle" id="menu-toggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="help-hero">
+  <div class="container">
+    <span class="section-tag" style="animation:fadeInUp 0.6s both">Help Center</span>
+    <h1 style="animation:fadeInUp 0.7s 0.1s both">How can we help you?</h1>
+    <p style="animation:fadeInUp 0.8s 0.2s both">Search our knowledge base or browse categories below. We're always here.</p>
+    <div class="help-search" style="animation:fadeInUp 0.8s 0.3s both">
+      <svg class="h-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="faq-search" placeholder="Search FAQs, policies, guides..." autocomplete="off">
+    </div>
+  </div>
+</div>
+
+<div class="container section">
+
+  <!-- FAQ Category Tabs -->
+  <div class="faq-cats">
+    <button class="faq-cat-btn active" data-cat="all">All Topics</button>
+    <button class="faq-cat-btn" data-cat="renting">Renting</button>
+    <button class="faq-cat-btn" data-cat="buying">Buying</button>
+    <button class="faq-cat-btn" data-cat="returns">Returns</button>
+    <button class="faq-cat-btn" data-cat="payment">Payment</button>
+    <button class="faq-cat-btn" data-cat="delivery">Delivery</button>
+    <button class="faq-cat-btn" data-cat="account">Account</button>
+  </div>
+
+  <div class="faq-layout">
+    <!-- FAQ Accordion -->
+    <div>
+      <div class="faq-group" id="faq-accordion">
+
+        <!-- Renting -->
+        <div class="faq-group-title">Renting Furniture</div>
+        <div class="accordion-item slide-up" data-cat="renting">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">How do I rent furniture from Rentoby?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              Renting is simple and takes just a few minutes:
+              <ul>
+                <li>Browse our <a href="rent.html">Rent page</a> and choose your furniture.</li>
+                <li>Select your preferred rental period — Daily, Weekly, or Monthly.</li>
+                <li>Add to cart and proceed to checkout.</li>
+                <li>Enter your delivery address and pay securely online.</li>
+                <li>We deliver and assemble — usually within 24–48 hours!</li>
+              </ul>
+              <strong>No security deposit required.</strong> Cancel or return anytime.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item slide-up delay-1" data-cat="renting">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">Can I extend my rental period?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              Yes! You can extend your rental at any time from your Profile dashboard under "My Rentals". Extensions are billed at the same rate as your current plan. There are no penalties for extending — in fact, longer plans come with better pricing.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item slide-up delay-2" data-cat="renting">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">Can I swap or upgrade my rented furniture?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              Absolutely. Rentoby allows you to swap your rented item for a different product once per rental cycle at no extra charge. Upgrades (switching to a higher-value item) involve a simple top-up payment. Contact our support team to initiate a swap.
+            </div>
+          </div>
+        </div>
+
+        <!-- Buying -->
+        <div class="faq-group-title" style="margin-top:28px">Buying Furniture</div>
+        <div class="accordion-item slide-up" data-cat="buying">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">How do I buy furniture from Rentoby?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              Buying is straightforward:
+              <ul>
+                <li>Visit our <a href="buy.html">Buy page</a> and browse 50+ premium products.</li>
+                <li>Click "Buy Now" or add to cart.</li>
+                <li>Checkout securely with UPI, Card, Net Banking, or EMI.</li>
+                <li>Receive delivery within 2–5 business days, with free assembly included.</li>
+              </ul>
+              All purchases come with a <strong>1-year warranty</strong> and 7-day easy return policy.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item slide-up delay-1" data-cat="buying">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">Is there a warranty on purchased furniture?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              Yes. All furniture purchased from Rentoby includes a <strong>1-year manufacturer warranty</strong> covering manufacturing defects. Premium products (marked with "Top Rated") come with a <strong>2-year warranty</strong>. Warranty does not cover damage caused by misuse or accidents — but we offer optional furniture protection plans.
+            </div>
+          </div>
+        </div>
+
+        <!-- Returns -->
+        <div class="faq-group-title" style="margin-top:28px">Returns & Refunds</div>
+        <div class="accordion-item slide-up" data-cat="returns">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">What is the return policy?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              We offer a <strong>7-day hassle-free return policy</strong> on all purchases. If you're not completely happy with your order:
+              <ul>
+                <li>Initiate a return from your Profile → My Orders within 7 days of delivery.</li>
+                <li>Our team will schedule a free pickup at your convenience.</li>
+                <li>Refunds are processed within 5–7 business days to your original payment method.</li>
+              </ul>
+              For rentals, you can return items at any time — just give us 48 hours' notice and we'll arrange pickup for free.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item slide-up delay-1" data-cat="returns">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">How long do refunds take?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              Once your return is picked up and inspected (usually 1–2 business days), refunds are processed within <strong>5–7 business days</strong>. The time to reflect in your account depends on your bank or payment provider — typically 2–3 additional working days for cards, and near-instant for UPI.
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment -->
+        <div class="faq-group-title" style="margin-top:28px">Payment Methods</div>
+        <div class="accordion-item slide-up" data-cat="payment">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">What payment methods does Rentoby accept?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              We accept all major payment methods:
+              <ul>
+                <li><strong>UPI:</strong> PhonePe, Google Pay, Paytm, BHIM</li>
+                <li><strong>Credit/Debit Cards:</strong> Visa, Mastercard, RuPay, Amex</li>
+                <li><strong>Net Banking:</strong> All major Indian banks</li>
+                <li><strong>EMI:</strong> No-cost EMI on orders above ₹5,000 (3, 6, 12 months)</li>
+                <li><strong>Wallets:</strong> Paytm, Amazon Pay, MobiKwik</li>
+                <li><strong>Buy Now Pay Later:</strong> ZestMoney, LazyPay</li>
+              </ul>
+              All transactions are secured with 256-bit SSL encryption.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item slide-up delay-1" data-cat="payment">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">Is there a security deposit for rentals?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              <strong>No security deposit is required</strong> for any rental on Rentoby. This is one of our core promises. You simply pay the rental amount for your chosen period, and that's it. No hidden charges, no lock-in fees, no surprises.
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery -->
+        <div class="faq-group-title" style="margin-top:28px">Delivery & Setup</div>
+        <div class="accordion-item slide-up" data-cat="delivery">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">How long does delivery take?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              Delivery timelines depend on your city:
+              <ul>
+                <li><strong>Metro cities</strong> (Bengaluru, Mumbai, Delhi, Hyderabad, Chennai, Pune): Same-day or next-day delivery.</li>
+                <li><strong>Tier-2 cities:</strong> 2–3 business days.</li>
+                <li><strong>Other pin codes:</strong> 4–7 business days.</li>
+              </ul>
+              All deliveries include <strong>free assembly and setup</strong> by our trained team. You'll receive real-time tracking via SMS and email.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item slide-up delay-1" data-cat="delivery">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">Is assembly included with delivery?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              Yes, 100% free assembly is included with every order — both rentals and purchases. Our professional installation team will arrive with your delivery, assemble everything in your space, and clean up before leaving. You don't need to lift a finger.
+            </div>
+          </div>
+        </div>
+
+        <!-- Account -->
+        <div class="faq-group-title" style="margin-top:28px">Account & Orders</div>
+        <div class="accordion-item slide-up" data-cat="account">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">How do I track my order or rental?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              You can track all your orders and active rentals from your <a href="profile.html">Profile page</a> under "My Orders" or "Active Rentals". We also send real-time SMS and email updates at every stage — order confirmed, out for delivery, delivered, and more.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item slide-up delay-1" data-cat="account">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-q">How do I cancel an order?</span>
+            <i class="accordion-icon">+</i>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-answer">
+              Orders can be cancelled free of charge within <strong>2 hours of placing them</strong>. After dispatch, you can still return the item using our 7-day return policy. To cancel, go to Profile → My Orders → Cancel Order, or contact our support team directly.
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end faq-accordion -->
+    </div>
+
+    <!-- Contact Panel -->
+    <div class="contact-panel slide-right">
+      <div class="contact-card">
+        <h3>Still need help?</h3>
+        <p>Our support team is available 7 days a week, 8AM–10PM IST. Choose your preferred way to reach us.</p>
+
+        <div class="contact-method">
+          <div class="contact-method-icon icon-phone">📞</div>
+          <div class="contact-method-info">
+            <div class="contact-label">Phone Support</div>
+            <div class="contact-value">1800 123 4567</div>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon icon-email">✉️</div>
+          <div class="contact-method-info">
+            <div class="contact-label">Email Us</div>
+            <div class="contact-value">support@rentoby.in</div>
+          </div>
+        </div>
+
+        <button class="live-chat-btn btn-ripple" onclick="startChat()">
+          <span class="chat-dot"></span>
+          Start Live Chat
+        </button>
+      </div>
+
+      <div class="contact-card">
+        <h3>Popular Articles</h3>
+        <div class="article-link">How to choose the right rental plan</div>
+        <div class="article-link">Setting up your first delivery</div>
+        <div class="article-link">EMI options and eligibility</div>
+        <div class="article-link">Furniture care & maintenance tips</div>
+        <div class="article-link">Refer a friend and earn rewards</div>
+        <div class="article-link">Managing your rental subscriptions</div>
+      </div>
+
+      <div class="contact-card" style="background:linear-gradient(135deg,rgba(56,189,248,0.07),rgba(139,92,246,0.07));border-color:rgba(56,189,248,0.15)">
+        <h3>⚡ Quick Response Promise</h3>
+        <p style="margin-bottom:0">We respond to all chat messages within <strong style="color:var(--primary)">2 minutes</strong> and emails within <strong style="color:var(--primary)">4 hours</strong>. Your satisfaction is our top priority.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="nav-logo logo" style="margin-bottom:16px;display:inline-flex">
+          <span class="logo-r">R</span> Rento<span style="color:var(--primary)">by</span>
+        </a>
+        <p>Premium furniture rental and buying platform. Furnish your dream home without breaking the bank.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon">📷</a>
+          <a href="#" class="social-icon">🐦</a>
+          <a href="#" class="social-icon">📘</a>
+          <a href="#" class="social-icon">💼</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="buy.html">Buy Furniture</a>
+        <a href="rent.html">Rent Furniture</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="#">Careers</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="help.html">Help Center</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Rentoby. All rights reserved.</span>
+      <span>Made with ♥ in India</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/products.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/main.js"></script>
+<script>
+  // ── Accordion ──────────────────────────────────────────────────────────────
+  function toggleAccordion(trigger) {
+    const item = trigger.closest('.accordion-item');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.accordion-item.open').forEach(i => i.classList.remove('open'));
+    // Open clicked if was closed
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── FAQ Category Filter ────────────────────────────────────────────────────
+  document.querySelectorAll('.faq-cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.faq-cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      document.querySelectorAll('.accordion-item').forEach(item => {
+        item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'block' : 'none';
+      });
+      document.querySelectorAll('.faq-group-title').forEach(title => {
+        title.style.display = cat === 'all' ? 'block' : 'none';
+      });
+    });
+  });
+
+  // ── FAQ Search ─────────────────────────────────────────────────────────────
+  document.getElementById('faq-search').addEventListener('input', function () {
+    const q = this.value.toLowerCase().trim();
+    document.querySelectorAll('.accordion-item').forEach(item => {
+      const text = item.querySelector('.accordion-q').textContent.toLowerCase();
+      item.style.display = (!q || text.includes(q)) ? 'block' : 'none';
+    });
+  });
+
+  // ── Live Chat ──────────────────────────────────────────────────────────────
+  function startChat() {
+    showToast('Connecting you to a support agent… (Demo)', 'success');
+  }
+</script>
+</body>
+</html>
